@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9esati - قصص مغربية بالدارجة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- شريط التنبيه -->
+    <div class="site-notice">
+        <p><i class="fas fa-star"></i> مرحباً بكم في <strong>9esati</strong> - انشر قصتك بالدارجة المغربية</p>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <div class="logo-text">
+                    <h1>9esati</h1>
+                    <p class="tagline">قصصنا بلغتنا</p>
+                </div>
+            </div>
+
+            <!-- عناصر التحكم بالمستخدم -->
+            <div class="auth-controls">
+                <div id="guest-view">
+                    <button id="login-btn" class="btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> دخول
+                    </button>
+                    <button id="register-btn" class="btn-primary">
+                        <i class="fas fa-user-plus"></i> حساب جديد
+                    </button>
+                </div>
+                
+                <div id="user-view" style="display: none;">
+                    <span id="user-email"></span>
+                    <button id="logout-btn" class="btn-outline">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                    <button id="add-story-btn" class="btn-primary">
+                        <i class="fas fa-plus"></i> قصة جديدة
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+            <input type="email" id="loginEmail" placeholder="البريد الإلكتروني">
+            <input type="password" id="loginPassword" placeholder="كلمة المرور">
+            <button id="doLogin" class="btn-primary">دخول</button>
+            <p class="modal-link">ليس لديك حساب؟ <a href="#" id="switch-to-register">سجل الآن</a></p>
+        </div>
+    </div>
+
+    <!-- نافذة التسجيل -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+            <input type="email" id="registerEmail" placeholder="البريد الإلكتروني">
+            <input type="password" id="registerPassword" placeholder="كلمة المرور (6 أحرف على الأقل)">
+            <button id="doRegister" class="btn-primary">إنشاء حساب</button>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <!-- قسم البطل -->
+        <section class="hero">
+            <h2>شارك قصتك بالدارجة المغربية</h2>
+            <p>اكتب، اقرأ، شارك - منصة 100% مغربية للقصص بالدارجة</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-book"></i>
+                    <span class="count" id="stories-count">0</span>
+                    <span class="label">قصة</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-users"></i>
+                    <span class="count" id="users-count">0</span>
+                    <span class="label">كاتب</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-eye"></i>
+                    <span class="count" id="views-count">0</span>
+                    <span class="label">قراءة</span>
+                </div>
+            </div>
+            <button id="start-writing" class="btn-primary btn-large">
+                <i class="fas fa-pen"></i> ابدأ الكتابة الآن
+            </button>
+        </section>
+
+        <!-- أحدث القصص -->
+        <section class="stories-section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> أحدث القصص</h2>
+                <button id="refresh-stories" class="btn-outline">
+                    <i class="fas fa-sync-alt"></i> تحديث
+                </button>
+            </div>
+            
+            <div class="stories-container" id="stories-container">
+                <!-- هنا ستظهر القصص -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل القصص...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- كيف تعمل -->
+        <section class="how-it-works">
+            <h2><i class="fas fa-play-circle"></i> كيف تعمل 9esati؟</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>سجّل حساباً</h3>
+                    <p>أنشئ حسابك المجاني في ثوانٍ</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>اكتب قصتك</h3>
+                    <p>اكتب بالدارجة المغربية بطلاقة</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>انشر وشارك</h3>
+                    <p>انشر قصتك للجميع وشاركها</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i>
+                <h3>9esati</h3>
+            </div>
+            <p class="footer-tagline">قصص مغربية أصيلة بالدارجة</p>
+            <div class="footer-links">
+                <a href="#"><i class="fas fa-question-circle"></i> المساعدة</a>
+                <a href="#"><i class="fas fa-shield-alt"></i> الخصوصية</a>
+                <a href="#"><i class="fas fa-envelope"></i> اتصل بنا</a>
+            </div>
+            <p class="copyright">© <span id="current-year">2024</span> 9esati - صنع بحب في المغرب</p>
+        </div>
+    </footer>
+
+    <!-- ملفات الجافاسكريبت -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
