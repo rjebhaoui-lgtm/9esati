@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9esati - قصص مغربية بالدارجة</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/2237/2237987.png">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6a11cb">
+</head>
+<body>
+    <!-- شريط التنبيه -->
+    <div class="site-notice">
+        <p><i class="fas fa-star"></i> مرحباً بكم في <strong>9esati</strong> - أول منصة مغربية للقصص بالدارجة</p>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <div class="logo-text">
+                    <h1>9esati</h1>
+                    <p class="tagline">قصص مغربية أصيلة بالدارجة</p>
+                </div>
+            </div>
+
+            <!-- شريط البحث -->
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="ابحث في القصص...">
+                <button id="search-btn" class="btn-search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="clear-search" class="btn-clear" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- زر تبديل الوضع الداكن/الفاتح -->
+            <div class="theme-toggle">
+                <button id="theme-toggle-btn" class="btn-outline" title="تبديل الوضع الداكن/الفاتح">
+                    <i class="fas fa-moon"></i>
+                    <span class="theme-text">داكن</span>
+                </button>
+            </div>
+
+            <!-- عناصر التحكم بالمستخدم -->
+            <div class="auth-controls">
+                <div id="guest-view">
+                    <button id="login-btn" class="btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> دخول
+                    </button>
+                    <button id="register-btn" class="btn-primary">
+                        <i class="fas fa-user-plus"></i> حساب جديد
+                    </button>
+                </div>
+                
+                <div id="user-view" style="display: none;">
+                    <span id="user-email"></span>
+                    <button id="logout-btn" class="btn-outline">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                    <button id="add-story-btn" class="btn-primary">
+                        <i class="fas fa-plus"></i> قصة جديدة
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- نافذة تسجيل الدخول -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+            
+            <!-- حقل الدخول المحدث -->
+            <div class="form-group">
+                <input type="text" id="loginIdentifier" 
+                       placeholder="البريد الإلكتروني أو اسم المستخدم">
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="loginPassword" 
+                       placeholder="كلمة المرور">
+            </div>
+            
+            <button id="doLogin" class="btn-primary">دخول</button>
+            <p class="modal-link">ليس لديك حساب؟ <a href="#" id="switch-to-register">سجل الآن</a></p>
+        </div>
+    </div>
+
+    <!-- نافذة التسجيل -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> إنشاء حساب</h2>
+            
+            <!-- حقل اسم المستخدم الجديد -->
+            <div class="form-group">
+                <input type="text" id="registerUsername" 
+                       placeholder="اسم المستخدم (سيظهر للجميع)" 
+                       minlength="3" maxlength="20">
+                <div class="input-hint">3-20 حرفاً، يمكن استخدام أحرف عربية/إنجليزية وأرقام</div>
+                <div id="username-feedback" class="username-feedback"></div>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" id="registerEmail" 
+                       placeholder="البريد الإلكتروني (للاسترجاع فقط)">
+                <div class="input-hint">لن يظهر للجميع، فقط للاسترجاع</div>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="registerPassword" 
+                       placeholder="كلمة المرور (6 أحرف على الأقل)">
+            </div>
+            
+            <div class="form-group">
+                <div class="privacy-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>بياناتك محمية ولا نشاركها مع أحد</span>
+                </div>
+            </div>
+            
+            <button id="doRegister" class="btn-primary">إنشاء حساب</button>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container">
+        <!-- قسم البطل -->
+        <section class="hero">
+            <h2>شارك قصتك بالدارجة المغربية</h2>
+            <p>منصة مغربية خالصة للقصص بالدارجة - اكتب قصتك، شاركها مع العالم</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-book"></i>
+                    <span class="count" id="stories-count">0</span>
+                    <span class="label">قصة</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-users"></i>
+                    <span class="count" id="users-count">0</span>
+                    <span class="label">كاتب</span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-eye"></i>
+                    <span class="count" id="views-count">0</span>
+                    <span class="label">قراءة</span>
+                </div>
+            </div>
+            <button id="start-writing" class="btn-primary btn-large">
+                <i class="fas fa-pen"></i> ابدأ الكتابة الآن
+            </button>
+        </section>
+
+        <!-- أحدث القصص -->
+        <section class="stories-section">
+            <div class="section-header">
+                <h2><i class="fas fa-clock"></i> أحدث القصص</h2>
+                <div class="section-actions">
+                    <button id="refresh-stories" class="btn-outline">
+                        <i class="fas fa-sync-alt"></i> تحديث
+                    </button>
+                </div>
+            </div>
+            
+            <div class="stories-container" id="stories-container">
+                <!-- هنا ستظهر القصص -->
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل القصص...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- كيف تعمل -->
+        <section class="how-it-works">
+            <h2><i class="fas fa-play-circle"></i> كيف تعمل منصتنا؟</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>سجّل حساباً</h3>
+                    <p>اختر اسم مستخدم فريد وانضم لمجتمعنا</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>اكتب قصتك</h3>
+                    <p>اكتب بالدارجة المغربية بطلاقة</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>انشر وشارك</h3>
+                    <p>انشر قصتك للجميع وشاركها</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- صفحة القصة الكاملة -->
+    <div id="story-detail-page" style="display: none;">
+        <div class="container">
+            <button id="back-to-home" class="back-btn">
+                <i class="fas fa-arrow-left"></i> العودة للرئيسية
+            </button>
+            
+            <article class="story-full">
+                <header class="story-header-detail">
+                    <h1 id="story-detail-title"></h1>
+                    <div class="story-meta-detail">
+                        <span class="author" id="story-detail-author">
+                            <i class="fas fa-user-pen"></i> <span id="author-name"></span>
+                        </span>
+                        <span class="date" id="story-detail-date">
+                            <i class="fas fa-calendar-days"></i> <span id="story-date"></span>
+                        </span>
+                        <span class="category" id="story-detail-category">
+                            <i class="fas fa-tag"></i> <span id="story-category"></span>
+                        </span>
+                        <span class="views" id="story-detail-views">
+                            <i class="fas fa-eye"></i> <span id="story-views">0</span> مشاهدة
+                        </span>
+                    </div>
+                </header>
+                
+                <!-- نظام التقييم بالنجوم -->
+                <div class="rating-section" id="rating-section">
+                    <h3><i class="fas fa-star"></i> تقييم القصة</h3>
+                    <div class="stars-container" id="stars-container">
+                        <!-- النجوم ستظهر هنا -->
+                    </div>
+                    <div class="rating-info">
+                        <span id="average-rating">0.0</span>
+                        <span class="rating-count" id="rating-count">(0 تقييم)</span>
+                    </div>
+                </div>
+                
+                <!-- تنقل الأجزاء (للقصص المتعددة) -->
+                <div class="parts-navigation" id="parts-navigation" style="display: none;">
+                    <button class="part-btn" id="prev-part-btn" disabled>
+                        <i class="fas fa-chevron-right"></i> الجزء السابق
+                    </button>
+                    <div class="parts-indicator" id="parts-indicator">
+                        الجزء <span id="current-part">1</span> من <span id="total-parts">1</span>
+                    </div>
+                    <button class="part-btn" id="next-part-btn">
+                        الجزء التالي <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+                
+                <!-- محتوى القصة مع حماية النسخ -->
+                <div class="story-content-detail" id="story-detail-content" 
+                     oncopy="return false" 
+                     oncut="return false" 
+                     onpaste="return false"
+                     oncontextmenu="return false">
+                    <!-- محتوى القصة سيظهر هنا -->
+                </div>
+                
+                <!-- رسالة حماية حقوق النشر -->
+                <div id="copy-protection-message" class="protection-message">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>حماية حقوق النشر: لا يسمح بنسخ أو مشاركة هذه القصة دون إذن الكاتب.</p>
+                </div>
+                
+                <footer class="story-footer-detail">
+                    <div class="story-actions-detail">
+                        <button class="btn-like" id="like-story-btn">
+                            <i class="far fa-heart"></i>
+                            <span id="likes-count">0</span> إعجاب
+                        </button>
+                        <button class="btn-share" id="share-story-btn">
+                            <i class="fas fa-share-alt"></i> مشاركة
+                        </button>
+                        <!-- أزرار التعديل والحذف ستظهر هنا -->
+                    </div>
+                </footer>
+            </article>
+            
+            <!-- قسم التعليقات -->
+            <section class="comments-section">
+                <h3><i class="fas fa-comments"></i> التعليقات (<span id="comments-count">0</span>)</h3>
+                
+                <!-- نموذج إضافة تعليق -->
+                <form id="add-comment-form" class="comment-form">
+                    <textarea id="comment-text" placeholder="اكتب تعليقك هنا..." rows="3" required></textarea>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i> إرسال التعليق
+                    </button>
+                </form>
+                
+                <!-- قائمة التعليقات -->
+                <div id="comments-list" class="comments-list">
+                    <!-- التعليقات ستظهر هنا -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i>
+                <h3>9esati</h3>
+            </div>
+            <p class="footer-tagline">منصة القصص المغربية بالدارجة - 100% مغربية</p>
+            <div class="footer-links">
+                <a href="#" onclick="showToast('قريباً...', 'info')"><i class="fas fa-question-circle"></i> المساعدة</a>
+                <a href="#" onclick="showToast('سياسة الخصوصية قريباً', 'info')"><i class="fas fa-shield-alt"></i> الخصوصية</a>
+                <a href="#" onclick="showToast('اتصل بنا عبر البريد الإلكتروني', 'info')"><i class="fas fa-envelope"></i> اتصل بنا</a>
+            </div>
+            <p class="copyright">© <span id="current-year">2024</span> قصصي - صنع بحب في المغرب 🇲🇦</p>
+        </div>
+    </footer>
+
+    <!-- ملفات الجافاسكريبت -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+    
+    <!-- PWA Service Worker -->
+    <script>
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('✅ Service Worker مسجل:', reg))
+                    .catch(err => console.error('❌ خطأ في Service Worker:', err));
+            });
+        }
+        
+        // طلب إذن الإشعارات
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('✅ تم تفعيل الإشعارات');
+                        localStorage.setItem('notifications-enabled', 'true');
+                    }
+                });
+            }
+        }
+        
+        // عند تحميل الصفحة، طلب الإذن (يمكنك تعديل الوقت)
+        window.addEventListener('load', () => {
+            setTimeout(requestNotificationPermission, 3000);
+        });
+    </script>
+</body>
+</html>
